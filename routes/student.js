@@ -1,11 +1,13 @@
 var express = require("express");
 var router = express.Router();
+var urlencodedParser = express.urlencoded({ extended: false });
 
 const pool = require("../db");
 var fs = require("fs");
 var ip = require("ip");
 
-router.post("/", function (req, res, next) {
+router.post("/",urlencodedParser ,function (req, res, next) {
+  console.log(req.body);
   var roll = req.body.roll;
   roll=roll.toUpperCase();
   var studentName = req.body.name;

@@ -27,7 +27,7 @@ app.use('/student', studentRouter);
 app.use('/classes',classesRouter);
 app.use('/class',classRouter);
 app.use('/classes-on-map',classesOnMapRouter);
-
+app.post('/student',studentRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
