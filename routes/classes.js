@@ -14,7 +14,6 @@ router.get("/:coursecode", function (req, res, next) {
         console.log(err);
       } else {
         res.send(resp.rows);
-        pool.end();
       }
     }
   );
