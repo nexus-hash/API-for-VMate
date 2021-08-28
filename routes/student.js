@@ -6,20 +6,22 @@ var fs = require("fs");
 var ip = require("ip");
 
 router.post("/", function (req, res, next) {
+  var roll = req.body.roll;
+  roll=roll.toUpperCase();
+  var studentName = req.body.name;
   pool.connect();
   pool.query(
     "select count(*) from student where roll=$1",
-    [req.query.roll],
+    [roll],
     function (err, resp) {
       if (err) {
         console.log(err);
+        res.send("Internal Server Error");
       } else {
         if (resp.rows[0].count == 0) {
-          var roll = req.query.roll;
-          roll = roll.toUpperCase();
           pool.query(
             "insert into student values($1,$2)",
-            [req.query.roll, req.query.name],
+            [roll, studentName],
             function (erro, respo) {
               if (erro) {
                 console.log(erro);
