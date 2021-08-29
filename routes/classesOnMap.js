@@ -34,7 +34,7 @@ router.get("/:courseCode", function (req, res, next) {
     //Error handling
     if (err) {
       console.log(err);
-      res.status(500).send("Internal Server Error");
+      res.status(500).send({output:"Internal Server Error"});
     } else {
 
       //Add result to the data

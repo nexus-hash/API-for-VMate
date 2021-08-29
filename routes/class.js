@@ -11,7 +11,7 @@ router.get("/:studentId", function (req, res, next) {
     function (err, result) {
       if (err) {
         console.log(err);
-        res.status(500).send("Internal server error");
+        res.status(500).send({output:"Internal server error"});
       } else {
         res.status(200).json(result.rows);
       }
@@ -51,7 +51,7 @@ router.post("/:studentId", function (req, res, next) {
     function (err, result) {
       if (err) {
         console.log(err);
-        res.status(500).send("Internal server error");
+        res.status(500).send({output:"Internal server error"});
       } else {
         for (let i = 0; i < result.rows.length; i++) {
           var arr = result.rows[i].time.split(" ");
@@ -74,7 +74,7 @@ router.post("/:studentId", function (req, res, next) {
           function (err, classTime) {
             if (err) {
               console.log(err);
-              res.status(500).send("Internal server error");
+              res.status(500).send({output:"Internal server error"});
             } else {
               var arr = result.rows[0].time.split(" ");
               var timearr = arr[1].split("-");
@@ -95,7 +95,7 @@ router.post("/:studentId", function (req, res, next) {
                   function (err, additionResult) {
                     if (err) {
                       console.log(err);
-                      res.status(500).send("Internal server error");
+                      res.status(500).send({output:"Internal server error"});
                     } else {
                       pool.query(
                         "update class set studentregistered = studentregistered+1 where id = $1",
@@ -103,9 +103,9 @@ router.post("/:studentId", function (req, res, next) {
                         function (err, resultUpdate) {
                           if (err) {
                             console.log(err);
-                            res.status(500).send("Internal server error");
+                            res.status(500).send({output:"Internal server error"});
                           } else {
-                            res.status(200).send("Class Added");
+                            res.status(200).send({output:"Class Added"});
                           }
                         }
                       );
@@ -113,7 +113,7 @@ router.post("/:studentId", function (req, res, next) {
                   }
                 );
               } else {
-                res.send("Clash");
+                res.send({output:"Clash"});
               }
             }
           }

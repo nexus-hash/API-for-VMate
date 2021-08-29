@@ -18,7 +18,7 @@ router.post("/",urlencodedParser ,function (req, res, next) {
     function (err, resp) {
       if (err) {
         console.log(err);
-        res.send("Internal Server Error");
+        res.send({output:"Internal Server Error"});
       } else {
         if (resp.rows[0].count == 0) {
           pool.query(
@@ -28,12 +28,12 @@ router.post("/",urlencodedParser ,function (req, res, next) {
               if (erro) {
                 console.log(erro);
               } else {
-                res.send("Student Added");
+                res.send({output:"Student Added"});
               }
             }
           );
         } else {
-          res.send("Student Alreay exists");
+          res.send({output:"Student Alreay exists"});
         }
       }
     }
@@ -52,7 +52,7 @@ router.get("/:roll", function (req, res, next) {
         console.log(err);
       } else {
         if (resp.rows[0].count == 0) {
-          res.send("Student Not Found");
+          res.send({output:"Student Not Found"});
         } else {
           pool.query(
             "select * from student where roll =$1",

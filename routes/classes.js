@@ -11,7 +11,7 @@ router.get("/:coursecode", function (req, res, next) {
     [code],
     function (err, resp) {
       if (err) {
-        console.log(err);
+        res.send({output:"Internal Server Error"});
       } else {
         res.send(resp.rows);
       }
