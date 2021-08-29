@@ -55,6 +55,7 @@ Gets all the courses available
 
 ## How to Compile and run
 
+The Database for this website is hosted on heroku postgres. The connection link is already provided for no confusions rather than the use of process environment.  
 This api is already hosted but still if someone wants to compile it the instruction are as follows:  
 1. Fork this Repository
 2. Clone the forked repository
