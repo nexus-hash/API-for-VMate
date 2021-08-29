@@ -156,7 +156,6 @@ router.delete("/:studentId/:classId", function (req, res, next) {
   var studentId = req.params.studentId;
   var classId = req.params.classId;
   var query = "DELETE FROM sclass WHERE roll = $1 AND classid = $2";
-  pool.connect();
   pool.query(query, [studentId, classId], (err, result) => {
     if (err) {
       console.log(err);
