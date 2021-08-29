@@ -76,7 +76,7 @@ router.post("/:studentId", function (req, res, next) {
               console.log(err);
               res.status(500).send({output:"Internal server error"});
             } else {
-              var arr = result.rows[0].time.split(" ");
+              var arr = classTime.rows[0].time.split(" ");
               var timearr = arr[1].split("-");
               var sdayHour = timearr[0].slice(1, 2);
               var edayHour = timearr[1].slice(1, 2);
@@ -88,7 +88,34 @@ router.post("/:studentId", function (req, res, next) {
                 ? (etime = parseInt(timearr[1].slice(0)) + 12)
                 : (etime = parseInt(timearr[1].slice(0)));
               var dayIndex = weekDay.indexOf(arr[0]);
-              if (checkClash(calender[dayIndex], stime, etime)) {
+              if(calender[dayIndex].length===0){
+                pool.query(
+                  "insert into sclass values ($1,$2)",
+                  [studentId, classId],
+                  function (err, additionResult) {
+                    if (err) {
+                      console.log(err);
+                      res.status(500).send({ output: "Internal server error" });
+                    } else {
+                      pool.query(
+                        "update class set studentregistered = studentregistered+1 where id = $1",
+                        [classId],
+                        function (err, resultUpdate) {
+                          if (err) {
+                            console.log(err);
+                            res
+                              .status(500)
+                              .send({ output: "Internal server error" });
+                          } else {
+                            res.status(200).send({ output: "Class Added" });
+                          }
+                        }
+                      );
+                    }
+                  }
+                );
+              }
+              else if (checkClash(calender[dayIndex], stime, etime)) {
                 pool.query(
                   "insert into sclass values ($1,$2)",
                   [studentId, classId],
@@ -133,16 +160,16 @@ router.delete("/:studentId/:classId", function (req, res, next) {
   pool.query(query, [studentId, classId], (err, result) => {
     if (err) {
       console.log(err);
-      res.sendStatus(500);
+      res.send({ output: "Deletion failed" });
     } else {
       var query_2 =
         "update class set studentregistered =studentregistered-1 where id = $1;";
       pool.query(query_2, [classId], function (err, remove) {
         if (err) {
           console.log(err);
-          res.sendStatus(500);
+          res.send({ output: "Deletion failed" });
         } else {
-          res.sendStatus(200);
+          res.send({output:"Deleted Successfully"});
         }
       });
     }
